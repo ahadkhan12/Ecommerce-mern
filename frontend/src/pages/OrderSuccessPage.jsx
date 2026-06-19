@@ -3,6 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { CheckCircle2, ShoppingBag, Calendar, MapPin, ClipboardList, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import Loader from '../components/Loader';
+import { API_BASE } from '../config';
 
 const OrderSuccessPage = () => {
   const [searchParams] = useSearchParams();
@@ -20,7 +21,7 @@ const OrderSuccessPage = () => {
         return;
       }
       try {
-        const response = await fetch(`/api/orders/${orderId}`, {
+        const response = await fetch(`${API_BASE}/api/orders/${orderId}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

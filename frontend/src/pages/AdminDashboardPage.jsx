@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Package, ListOrdered, Users, DollarSign, Plus, Edit, Trash2, Check, X, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import Loader from '../components/Loader';
+import { API_BASE } from '../config';
 
 const AdminDashboardPage = () => {
   const { user } = useAuth();
@@ -46,7 +47,7 @@ const AdminDashboardPage = () => {
       const headers = { Authorization: `Bearer ${user.token}` };
 
       // 1. Fetch Products
-      const prodRes = await fetch('/api/products');
+      const prodRes = await fetch(`${API_BASE}/api/products`);
       const prodData = await prodRes.json();
       if (!prodRes.ok) {
         throw new Error(prodData.message || 'Failed to fetch products');
@@ -54,7 +55,7 @@ const AdminDashboardPage = () => {
       setProducts(prodData.products || []);
 
       // 2. Fetch Orders
-      const orderRes = await fetch('/api/orders', { headers });
+      const orderRes = await fetch(`${API_BASE}/api/orders`, { headers });
       const orderData = await orderRes.json();
       if (!orderRes.ok) {
         throw new Error(orderData.message || 'Failed to fetch orders');
@@ -62,7 +63,7 @@ const AdminDashboardPage = () => {
       setOrders(Array.isArray(orderData) ? orderData : []);
 
       // 3. Fetch Users
-      const userRes = await fetch('/api/auth/users', { headers });
+      const userRes = await fetch(`${API_BASE}/api/auth/users`, { headers });
       const userData = await userRes.json();
       if (!userRes.ok) {
         throw new Error(userData.message || 'Failed to fetch users');
@@ -126,7 +127,7 @@ const AdminDashboardPage = () => {
       const method = editingProduct ? 'PUT' : 'POST';
       const endpoint = editingProduct ? `/api/products/${editingProduct._id}` : '/api/products';
 
-      const response = await fetch(endpoint, {
+      const response = await fetch(`${API_BASE}${endpoint}`, {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -149,7 +150,7 @@ const AdminDashboardPage = () => {
   const handleProductDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        const response = await fetch(`/api/products/${id}`, {
+        const response = await fetch(`${API_BASE}/api/products/${id}`, {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -170,7 +171,7 @@ const AdminDashboardPage = () => {
   // Order Delivery status handler
   const handleMarkAsDelivered = async (id) => {
     try {
-      const response = await fetch(`/api/orders/${id}/deliver`, {
+      const response = await fetch(`${API_BASE}/api/orders/${id}/deliver`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${user.token}`,

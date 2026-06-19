@@ -4,6 +4,7 @@ import { CreditCard, MapPin, ShieldCheck, AlertCircle, Sparkles } from 'lucide-r
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import Loader from '../components/Loader';
+import { API_BASE } from '../config';
 
 const CheckoutPage = () => {
   const { cartItems, itemsPrice, taxPrice, shippingPrice, totalPrice, clearCart } = useCart();
@@ -72,7 +73,7 @@ const CheckoutPage = () => {
     // Submit Order
     setLoading(true);
     try {
-      const response = await fetch('/api/orders', {
+      const response = await fetch(`${API_BASE}/api/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

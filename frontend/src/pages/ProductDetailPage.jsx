@@ -4,6 +4,7 @@ import { ShoppingCart, ArrowLeft, Star, Heart, Check, HelpCircle } from 'lucide-
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import Loader from '../components/Loader';
+import { API_BASE } from '../config';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -25,7 +26,7 @@ const ProductDetailPage = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`/api/products/${id}`);
+        const res = await fetch(`${API_BASE}/api/products/${id}`);
         if (!res.ok) {
           throw new Error('Product not found');
         }

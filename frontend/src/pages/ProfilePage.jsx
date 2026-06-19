@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { User, Mail, Calendar, Key, ClipboardList, Eye, ArrowRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import Loader from '../components/Loader';
+import { API_BASE } from '../config';
 
 const ProfilePage = () => {
   const { user } = useAuth();
@@ -18,7 +19,7 @@ const ProfilePage = () => {
 
     const fetchMyOrders = async () => {
       try {
-        const response = await fetch('/api/orders/myorders', {
+        const response = await fetch(`${API_BASE}/api/orders/myorders`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

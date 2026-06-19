@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import Loader from '../components/Loader';
 import { SlidersHorizontal, Search, RefreshCw } from 'lucide-react';
+import { API_BASE } from '../config';
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -32,7 +33,7 @@ const HomePage = () => {
       if (activeCategory && activeCategory !== 'all') queryParams.append('category', activeCategory);
       if (sortBy) queryParams.append('sortBy', sortBy);
 
-      const res = await fetch(`/api/products?${queryParams.toString()}`);
+      const res = await fetch(`${API_BASE}/api/products?${queryParams.toString()}`);
       if (!res.ok) {
         throw new Error('Failed to load products');
       }
